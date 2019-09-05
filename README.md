@@ -1,2 +1,2 @@
-Codes for our Spatiotemporal Attention Network
+Codes for our Spatiotemporal Attention Network (STAN)
 --------
