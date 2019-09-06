@@ -8,18 +8,13 @@ from Module import Attn
 
 BATCH = 300
 EPOCHS = 40
-# 输入特征维度
 INPUT_SIZE = 6
-# 学习率
 LR = 0.01
 d_model = 512
 heads = 8
-# RNN神经元数量
 HIDDEN_SIZE = 32
 h_state = None
-# 时间窗大小
 TIME_STEP = 12
-# 预测步长
 STEPS = 1
 DEVICE = torch.device('cuda' if cuda.is_available() else 'cpu')
 
