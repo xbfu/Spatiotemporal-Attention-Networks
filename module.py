@@ -107,15 +107,9 @@ class Attn(nn.Module):
     def __init__(self, hidden_size):
         super(Attn, self).__init__()
 
-        self.method = 'general'
         self.hidden_size = hidden_size
 
-        if self.method == 'general':
-            self.attn = nn.Linear(self.hidden_size, hidden_size)
-
-        elif self.method == 'concat':
-            self.attn = nn.Linear(self.hidden_size * 2, hidden_size)
-            self.v = nn.Parameter(torch.FloatTensor(1, hidden_size))
+        self.attn = nn.Linear(self.hidden_size, hidden_size)
 
     def forward(self, hidden, encoder_outputs):
         encoder_outputs = encoder_outputs.transpose(1,0)
@@ -137,17 +131,8 @@ class Attn(nn.Module):
 
     def score(self, hidden, encoder_output):
 
-        if self.method == 'dot':
-            energy = hidden.squeeze(0).dot(encoder_output.squeeze(0))
-            return energy
-
-        elif self.method == 'general':
-            energy = self.attn(encoder_output)
-            energy = hidden.squeeze(0).dot(energy.squeeze(0))
-            return energy
-
-        elif self.method == 'concat':
-            energy = self.attn(torch.cat((hidden, encoder_output), 1))
-            energy = self.v.squeeze(0).dot(energy.squeeze(0))
+        energy = self.attn(encoder_output)
+        energy = hidden.squeeze(0).dot(energy.squeeze(0))
+        return energy
 
         return energy
